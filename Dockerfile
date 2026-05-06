@@ -2,18 +2,18 @@ FROM apache/airflow:2.9.1-python3.11
 
 USER root
 RUN apt-get update && apt-get install -y git && apt-get clean
+
+COPY requirements.txt /requirements.txt
+COPY dags/ /opt/airflow/dags/
+COPY include/ /opt/airflow/include/
+
 RUN mkdir -p /opt/airflow/include/psx_analytics && \
+    chmod -R 777 /opt/airflow/include && \
     chown -R airflow:root /opt/airflow/include
 
 USER airflow
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY dags/ /opt/airflow/dags/
-COPY include/ /opt/airflow/include/
-
-RUN chmod -R 777 /opt/airflow/include
+RUN pip install --no-cache-dir -r /requirements.txt
 
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["printf '%s' \"$DBT_PROFILES_YML\" > /opt/airflow/include/psx_analytics/profiles.yml && \
