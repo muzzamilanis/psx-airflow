@@ -11,10 +11,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY dags/ /opt/airflow/dags/
 COPY include/ /opt/airflow/include/
 
-CMD bash -c "\
-mkdir -p /opt/airflow/include/psx_analytics && \
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["mkdir -p /opt/airflow/include/psx_analytics && \
 printf '%s' \"$DBT_PROFILES_YML\" > /opt/airflow/include/psx_analytics/profiles.yml && \
 airflow db migrate && \
 airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com 2>/dev/null || true && \
 airflow scheduler & \
-airflow webserver --port 8080"
+airflow webserver --port 8080"]
