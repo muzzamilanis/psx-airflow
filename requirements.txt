@@ -1,6 +1,11 @@
-# Astro Runtime includes the following pre-installed providers packages: https://www.astronomer.io/docs/astro/runtime-image-architecture#provider-packages
-requests
-beautifulsoup4
-psycopg2-binary
-apache-airflow-providers-postgres
-dbt-postgres
+# Airflow providers
+apache-airflow-providers-postgres==5.10.2
+
+# dbt
+dbt-postgres==1.8.2
+dbt-core==1.8.2
+
+# Scraper
+requests==2.31.0
+beautifulsoup4==4.12.3
+psycopg2-binary==2.9.9
