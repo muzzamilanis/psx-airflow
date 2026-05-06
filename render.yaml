@@ -1,0 +1,21 @@
+cat > /workspaces/psx-airflow/render.yaml << 'EOF'
+services:
+  - type: web
+    name: psx-airflow
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: AIRFLOW__CORE__EXECUTOR
+        value: SequentialExecutor
+      - key: AIRFLOW__CORE__LOAD_EXAMPLES
+        value: "false"
+      - key: AIRFLOW__WEBSERVER__WEB_SERVER_PORT
+        value: "8080"
+      - key: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+        sync: false
+      - key: AIRFLOW__CORE__FERNET_KEY
+        sync: false
+      - key: DBT_PROFILES_YML
+        sync: false
+EOF
