@@ -1,0 +1,482 @@
+symbol,sector
+AGTL,Automobile Assembler
+ATLH,Automobile Assembler
+DFML,Automobile Assembler
+GAL,Automobile Assembler
+GHNI,Automobile Assembler
+HCAR,Automobile Assembler
+HINO,Automobile Assembler
+INDU,Automobile Assembler
+MTL,Automobile Assembler
+SAZEW,Automobile Assembler
+AGIL,Automobile Parts & Accessories
+ATBA,Automobile Parts & Accessories
+BELA,Automobile Parts & Accessories
+BWHL,Automobile Parts & Accessories
+DWAE,Automobile Parts & Accessories
+EXIDE,Automobile Parts & Accessories
+GTYR,Automobile Parts & Accessories
+LOADS,Automobile Parts & Accessories
+PTL,Automobile Parts & Accessories
+TBL,Automobile Parts & Accessories
+THALL,Automobile Parts & Accessories
+EMCO,Cable & Electrical Goods
+FCL,Cable & Electrical Goods
+PAEL,Cable & Electrical Goods
+PCAL,Cable & Electrical Goods
+SIEM,Cable & Electrical Goods
+WAVES,Cable & Electrical Goods
+WAVESAPP,Cable & Electrical Goods
+ACPL,Cement
+BWCL,Cement
+CHCC,Cement
+DBCI,Cement
+DCL,Cement
+DGKC,Cement
+DNCC,Cement
+FCCL,Cement
+FECTC,Cement
+FLYNG,Cement
+GWLC,Cement
+KOHC,Cement
+LUCK,Cement
+MLCF,Cement
+PIOC,Cement
+POWER,Cement
+POWERPS,Cement
+SMCPL,Cement
+THCCL,Cement
+ZELP,Cement
+ARPL,Chemical
+BAPL,Chemical
+BERG,Chemical
+BIFO,Chemical
+BUXL,Chemical
+DAAG,Chemical
+DOL,Chemical
+DYNO,Chemical
+EPCL,Chemical
+EPCLPS,Chemical
+GCIL,Chemical
+GCWL,Chemical
+GGL,Chemical
+ICL,Chemical
+LCI,Chemical
+LOTCHEM,Chemical
+LPGL,Chemical
+NICL,Chemical
+NRSL,Chemical
+PAKOXY,Chemical
+PPVC,Chemical
+SARC,Chemical
+SHCI,Chemical
+SITC,Chemical
+SPL,Chemical
+WAHN,Chemical
+ABL,Commercial Banks
+AKBL,Commercial Banks
+BAFL,Commercial Banks
+BAHL,Commercial Banks
+BIPL,Commercial Banks
+BML,Commercial Banks
+BOK,Commercial Banks
+BOP,Commercial Banks
+FABL,Commercial Banks
+HBL,Commercial Banks
+HMB,Commercial Banks
+JSBL,Commercial Banks
+MCB,Commercial Banks
+MEBL,Commercial Banks
+NBP,Commercial Banks
+SBL,Commercial Banks
+SCBPL,Commercial Banks
+SNBL,Commercial Banks
+UBL,Commercial Banks
+AGHA,Engineering
+ASL,Engineering
+ASLCPS,Engineering
+ASLPS,Engineering
+ASTL,Engineering
+BCL,Engineering
+BECO,Engineering
+CSAP,Engineering
+DADX,Engineering
+DSL,Engineering
+HSPI,Engineering
+INIL,Engineering
+ISL,Engineering
+ITTEFAQ,Engineering
+KSBP,Engineering
+MSCL,Engineering
+MUGHAL,Engineering
+MUGHALC,Engineering
+PECO,Engineering
+AGL,Fertilizer
+AGLNCPS,Fertilizer
+AHCL,Fertilizer
+EFERT,Fertilizer
+FATIMA,Fertilizer
+FFC,Fertilizer
+ASC,Food & Personal Care Products
+BBFL,Food & Personal Care Products
+BFAGRO,Food & Personal Care Products
+BNL,Food & Personal Care Products
+CLOV,Food & Personal Care Products
+COLG,Food & Personal Care Products
+FCEPL,Food & Personal Care Products
+FFL,Food & Personal Care Products
+GDL,Food & Personal Care Products
+GIL,Food & Personal Care Products
+GLPL,Food & Personal Care Products
+ISIL,Food & Personal Care Products
+MFFL,Food & Personal Care Products
+MFL,Food & Personal Care Products
+MUREB,Food & Personal Care Products
+NATF,Food & Personal Care Products
+NESTLE,Food & Personal Care Products
+NMFL,Food & Personal Care Products
+PREMA,Food & Personal Care Products
+QUICE,Food & Personal Care Products
+RMPL,Food & Personal Care Products
+SCL,Food & Personal Care Products
+SHEZ,Food & Personal Care Products
+TOMCL,Food & Personal Care Products
+TREET,Food & Personal Care Products
+UNITY,Food & Personal Care Products
+UPFL,Food & Personal Care Products
+ZIL,Food & Personal Care Products
+BGL,Glass & Ceramics
+FRCL,Glass & Ceramics
+GGGL,Glass & Ceramics
+GHGL,Glass & Ceramics
+GVGL,Glass & Ceramics
+KCL,Glass & Ceramics
+REGAL,Glass & Ceramics
+STCL,Glass & Ceramics
+TGL,Glass & Ceramics
+BATA,Leather & Tanneries
+FIL,Leather & Tanneries
+LEUL,Leather & Tanneries
+PAKL,Leather & Tanneries
+SGF,Leather & Tanneries
+SRVI,Leather & Tanneries
+AKDHL,Miscellaneous
+AKGL,Miscellaneous
+ARPAK,Miscellaneous
+DCTL,Miscellaneous
+DIIL,Miscellaneous
+ECOP,Miscellaneous
+GAMON,Miscellaneous
+GEMPACRA,Miscellaneous
+GOC,Miscellaneous
+HADC,Miscellaneous
+MWMP,Miscellaneous
+OML,Miscellaneous
+PABC,Miscellaneous
+PHDL,Miscellaneous
+PSEL,Miscellaneous
+SHFA,Miscellaneous
+STPL,Miscellaneous
+TRIPF,Miscellaneous
+UBDL,Miscellaneous
+UDLI,Miscellaneous
+UDPL,Miscellaneous
+MARI,Oil & Gas Exploration
+OGDC,Oil & Gas Exploration
+POL,Oil & Gas Exploration
+PPL,Oil & Gas Exploration
+APL,Oil & Gas Marketing
+BPL,Oil & Gas Marketing
+HASCOL,Oil & Gas Marketing
+HTL,Oil & Gas Marketing
+OBOY,Oil & Gas Marketing
+PSO,Oil & Gas Marketing
+SNGP,Oil & Gas Marketing
+SSGC,Oil & Gas Marketing
+WAFI,Oil & Gas Marketing
+ABOT,Pharmaceuticals
+AGP,Pharmaceuticals
+BFBIO,Pharmaceuticals
+CPHL,Pharmaceuticals
+FEROZ,Pharmaceuticals
+GLAXO,Pharmaceuticals
+HALEON,Pharmaceuticals
+HINOON,Pharmaceuticals
+HPL,Pharmaceuticals
+IBLHL,Pharmaceuticals
+LIVEN,Pharmaceuticals
+MACTER,Pharmaceuticals
+OTSU,Pharmaceuticals
+SEARL,Pharmaceuticals
+ALTN,Power Generation & Distribution
+EPQL,Power Generation & Distribution
+GEMMEL,Power Generation & Distribution
+HUBC,Power Generation & Distribution
+KAPCO,Power Generation & Distribution
+KEL,Power Generation & Distribution
+KOHE,Power Generation & Distribution
+KOHP,Power Generation & Distribution
+LPL,Power Generation & Distribution
+NCPL,Power Generation & Distribution
+NPL,Power Generation & Distribution
+PKGP,Power Generation & Distribution
+SEL,Power Generation & Distribution
+SGPL,Power Generation & Distribution
+SPWL,Power Generation & Distribution
+TSPL,Power Generation & Distribution
+BRRG,Property
+HUSI,Property
+JVDC,Property
+JVDCPS,Property
+PACE,Property
+TPLP,Property
+DCR,Real Estate Investment Trust
+GRR,Real Estate Investment Trust
+IREIT,Real Estate Investment Trust
+SRR,Real Estate Investment Trust
+TPLRF1,Real Estate Investment Trust
+ATRL,Refinery
+CNERGY,Refinery
+NRL,Refinery
+PRL,Refinery
+AABS,Sugar & Allied Industries
+ADAMS,Sugar & Allied Industries
+AGSML,Sugar & Allied Industries
+ALNRS,Sugar & Allied Industries
+ANSM,Sugar & Allied Industries
+BAFS,Sugar & Allied Industries
+CHAS,Sugar & Allied Industries
+DWSM,Sugar & Allied Industries
+FRSM,Sugar & Allied Industries
+HABSM,Sugar & Allied Industries
+HRPL,Sugar & Allied Industries
+HWQS,Sugar & Allied Industries
+JDWS,Sugar & Allied Industries
+JSML,Sugar & Allied Industries
+KPUS,Sugar & Allied Industries
+MIRKS,Sugar & Allied Industries
+MRNS,Sugar & Allied Industries
+NONS,Sugar & Allied Industries
+PMRS,Sugar & Allied Industries
+SANSM,Sugar & Allied Industries
+SASML,Sugar & Allied Industries
+SHJS,Sugar & Allied Industries
+SHSML,Sugar & Allied Industries
+SKRS,Sugar & Allied Industries
+SML,Sugar & Allied Industries
+TCORP,Sugar & Allied Industries
+TCORPCPS,Sugar & Allied Industries
+TICL,Sugar & Allied Industries
+TSML,Sugar & Allied Industries
+AASM,Synthetic & Rayon
+DSFL,Synthetic & Rayon
+GATI,Synthetic & Rayon
+IBFL,Synthetic & Rayon
+IMAGE,Synthetic & Rayon
+NAFL,Synthetic & Rayon
+NSRM,Synthetic & Rayon
+PSYL,Synthetic & Rayon
+RUPL,Synthetic & Rayon
+SGABL,Synthetic & Rayon
+AIRLINK,Technology & Communication
+AVN,Technology & Communication
+GEMNETS,Technology & Communication
+HUMNL,Technology & Communication
+ITANZ,Technology & Communication
+MDTL,Technology & Communication
+NETSOL,Technology & Communication
+OCTOPUS,Technology & Communication
+PAKD,Technology & Communication
+PTC,Technology & Communication
+QTECH,Technology & Communication
+STL,Technology & Communication
+SYM,Technology & Communication
+SYS,Technology & Communication
+TELE,Technology & Communication
+TPL,Technology & Communication
+TPLT,Technology & Communication
+TRG,Technology & Communication
+WTL,Technology & Communication
+ZAL,Technology & Communication
+ZUMA,Technology & Communication
+ADMM,Textile Composite
+AHTM,Textile Composite
+ANL,Textile Composite
+ANLNV,Textile Composite
+ANLPS,Textile Composite
+ANTM,Textile Composite
+ARUJ,Textile Composite
+BHAT,Textile Composite
+BTL,Textile Composite
+CHBL,Textile Composite
+CLCPS,Textile Composite
+CRTM,Textile Composite
+FASM,Textile Composite
+FML,Textile Composite
+FSWL,Textile Composite
+FTHM,Textile Composite
+FZCM,Textile Composite
+GATM,Textile Composite
+GFIL,Textile Composite
+HAEL,Textile Composite
+HAFL,Textile Composite
+HATM,Textile Composite
+ILP,Textile Composite
+INKL,Textile Composite
+JUBS,Textile Composite
+KAKL,Textile Composite
+KHYT,Textile Composite
+KML,Textile Composite
+KOIL,Textile Composite
+KTML,Textile Composite
+MEHT,Textile Composite
+MFTM,Textile Composite
+MSOT,Textile Composite
+MSOTPS,Textile Composite
+MUBT,Textile Composite
+NCL,Textile Composite
+NINA,Textile Composite
+NML,Textile Composite
+PASM,Textile Composite
+QUET,Textile Composite
+REDCO,Textile Composite
+REWM,Textile Composite
+SAPT,Textile Composite
+SCHT,Textile Composite
+SFAT,Textile Composite
+SFL,Textile Composite
+STML,Textile Composite
+STYLERS,Textile Composite
+SURC,Textile Composite
+TAJT,Textile Composite
+TOWL,Textile Composite
+USMT,Textile Composite
+ZAHID,Textile Composite
+AAL,Textile Spinning
+AATM,Textile Spinning
+AMTEX,Textile Spinning
+ANNT,Textile Spinning
+APOT,Textile Spinning
+ARCTM,Textile Spinning
+ASTM,Textile Spinning
+AWTX,Textile Spinning
+AZMT,Textile Spinning
+CCM,Textile Spinning
+CFL,Textile Spinning
+CTM,Textile Spinning
+DFSM,Textile Spinning
+DINT,Textile Spinning
+DKTM,Textile Spinning
+DMC,Textile Spinning
+DMTM,Textile Spinning
+DSIL,Textile Spinning
+DWTM,Textile Spinning
+ELCM,Textile Spinning
+ELSM,Textile Spinning
+FAEL,Textile Spinning
+GADT,Textile Spinning
+GLOT,Textile Spinning
+GSPM,Textile Spinning
+GUSM,Textile Spinning
+GUTM,Textile Spinning
+HAJT,Textile Spinning
+HIRAT,Textile Spinning
+HMIM,Textile Spinning
+IDRT,Textile Spinning
+IDSM,Textile Spinning
+IDYM,Textile Spinning
+JATM,Textile Spinning
+JDMT,Textile Spinning
+JKSM,Textile Spinning
+KOHTM,Textile Spinning
+KOSM,Textile Spinning
+KSTM,Textile Spinning
+MQTM,Textile Spinning
+NAGC,Textile Spinning
+NATM,Textile Spinning
+NCML,Textile Spinning
+PRET,Textile Spinning
+RCML,Textile Spinning
+RUBY,Textile Spinning
+SAIF,Textile Spinning
+SANE,Textile Spinning
+SERT,Textile Spinning
+SHCM,Textile Spinning
+SHDT,Textile Spinning
+SLYT,Textile Spinning
+SNAI,Textile Spinning
+SSML,Textile Spinning
+SUTM,Textile Spinning
+SZTM,Textile Spinning
+TATM,Textile Spinning
+ASHT,Textile Weaving
+HKKT,Textile Weaving
+ICCI,Textile Weaving
+MOHE,Textile Weaving
+PRWM,Textile Weaving
+SDOT,Textile Weaving
+STJT,Textile Weaving
+YOUW,Textile Weaving
+ZTL,Textile Weaving
+KHTC,Tobacco
+PAKT,Tobacco
+BLUEX,Transport
+CLVL,Transport
+PIBTL,Transport
+PICT,Transport
+PNSC,Transport
+SLGL,Transport
+POML,Vanaspati & Allied Industries
+SSOM,Vanaspati & Allied Industries
+SURAJ,Vanaspati & Allied Industries
+BNWM,Woollen
+ABOT XD,Pharmaceuticals
+ACPL XD,Cement
+FABL XD,Commercial Banks
+FATIMA XD,Fertilizer
+FCEPL XD,Food & Personal Care Products
+GLAXO XD,Pharmaceuticals
+HALEON XD,Pharmaceuticals
+HINOON XD,Pharmaceuticals
+KSBP XD,Engineering
+PAKQATAR XD,Modaraba
+PKGS XD,Miscellaneous
+PQGTL XD,Modaraba
+RMPL XD,Food & Personal Care Products
+SAZEW XD,Automobile Assembler
+SGF XD,Leather & Tanneries
+SPWL XD,Power Generation & Distribution
+SYS XD,Technology & Communication
+UPFL XD,Food & Personal Care Products
+WAFI XD,Oil & Gas Marketing
+ZIL XD,Food & Personal Care Products
+IPAK XB,Miscellaneous
+BFMOD,Modaraba
+FANM,Modaraba
+FECM,Modaraba
+FEM,Modaraba
+FFLM,Modaraba
+FHAM,Modaraba
+FIBLM,Modaraba
+FIMM,Modaraba
+FPJM,Modaraba
+FPRM,Modaraba
+FTMM,Modaraba
+FTSM,Modaraba
+GEMBCEM,Modaraba
+OLPM,Modaraba
+ORM,Modaraba
+PIM,Modaraba
+SINDM,Modaraba
+TRSM,Modaraba
+UCAPM,Modaraba
+WASL,Modaraba
+CEPB,Miscellaneous
+CPPL,Miscellaneous
+ENGROH,Miscellaneous
+GEMPAPL,Miscellaneous
+MACFL,Miscellaneous
+MERIT,Miscellaneous
+PPP,Miscellaneous
+RPL,Miscellaneous
+SPEL,Miscellaneous

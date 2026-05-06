@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_psx_daily_snapshot
+    description: "Cleaned and typed PSX daily snapshot data"
+    columns:
+      - name: id
+        description: "Primary key from raw table"
+        tests:
+          - unique
+          - not_null
+      - name: symbol
+        description: "PSX ticker symbol"
+        tests:
+          - not_null
+      - name: fetched_at
+        description: "Date the snapshot was taken"
+        tests:
+          - not_null
+      - name: current_price
+        description: "Current traded price"
+        tests:
+          - not_null
