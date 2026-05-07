@@ -4,6 +4,7 @@ USER root
 RUN apt-get update && apt-get install -y git && apt-get clean
 
 COPY requirements.txt /requirements.txt
+COPY debug_db.py /debug_db.py
 COPY dags/ /opt/airflow/dags/
 COPY include/ /opt/airflow/include/
 
@@ -16,13 +17,4 @@ USER airflow
 RUN pip install --no-cache-dir -r /requirements.txt
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["python -c \"\
-import traceback; \
-import airflow.utils.db as db; \
-try: \
-    db.initdb(); \
-    print('INITDB SUCCESS') \
-except Exception as e: \
-    traceback.print_exc(); \
-    print('INITDB FAILED:', e) \
-\""]
+CMD ["python /debug_db.py"]
