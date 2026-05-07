@@ -1,4 +1,4 @@
-FROM apache/airflow:2.9.1-python3.11
+FROM apache/airflow:3.2.1-python3.11
 
 USER root
 RUN apt-get update && apt-get install -y git && apt-get clean
@@ -17,9 +17,8 @@ RUN pip install --no-cache-dir -r /requirements.txt
 
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["printf '%s' \"$DBT_PROFILES_YML\" > /opt/airflow/include/psx_analytics/profiles.yml && \
-airflow db init && \
+airflow db migrate 2>&1 && \
+echo 'DB MIGRATE COMPLETE' && \
 airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com 2>/dev/null || true && \
-sleep 5 && \
 airflow scheduler & \
-sleep 10 && \
 airflow webserver --port 8080"]
