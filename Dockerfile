@@ -19,5 +19,7 @@ ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["printf '%s' \"$DBT_PROFILES_YML\" > /opt/airflow/include/psx_analytics/profiles.yml && \
 airflow db init && \
 airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com 2>/dev/null || true && \
+sleep 5 && \
 airflow scheduler & \
+sleep 10 && \
 airflow webserver --port 8080"]
