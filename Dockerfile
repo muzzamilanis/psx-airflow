@@ -4,7 +4,6 @@ USER root
 RUN apt-get update && apt-get install -y git && apt-get clean
 
 COPY requirements.txt /requirements.txt
-COPY debug_db.py /debug_db.py
 COPY dags/ /opt/airflow/dags/
 COPY include/ /opt/airflow/include/
 
@@ -17,4 +16,8 @@ USER airflow
 RUN pip install --no-cache-dir -r /requirements.txt
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["python /debug_db.py"]
+CMD ["printf '%s' \"$DBT_PROFILES_YML\" > /opt/airflow/include/psx_analytics/profiles.yml && \
+airflow db migrate && \
+airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com 2>/dev/null || true && \
+airflow scheduler & \
+airflow api-server --port 8080"]
