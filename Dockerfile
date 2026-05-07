@@ -16,9 +16,13 @@ USER airflow
 RUN pip install --no-cache-dir -r /requirements.txt
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["printf '%s' \"$DBT_PROFILES_YML\" > /opt/airflow/include/psx_analytics/profiles.yml && \
-airflow db migrate 2>&1 && \
-echo 'DB MIGRATE COMPLETE' && \
-airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com 2>/dev/null || true && \
-airflow scheduler & \
-airflow api-server --port 8080"]
+CMD ["python -c \"\
+import traceback; \
+import airflow.utils.db as db; \
+try: \
+    db.initdb(); \
+    print('INITDB SUCCESS') \
+except Exception as e: \
+    traceback.print_exc(); \
+    print('INITDB FAILED:', e) \
+\""]
