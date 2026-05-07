@@ -1,4 +1,4 @@
-FROM apache/airflow:3.2.1-python3.11
+FROM apache/airflow:3.0.0-python3.11
 
 USER root
 RUN apt-get update && apt-get install -y git && apt-get clean
@@ -21,4 +21,4 @@ airflow db migrate 2>&1 && \
 echo 'DB MIGRATE COMPLETE' && \
 airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com 2>/dev/null || true && \
 airflow scheduler & \
-airflow webserver --port 8080"]
+airflow api-server --port 8080"]
