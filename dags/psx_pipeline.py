@@ -1,4 +1,4 @@
-from airflow.sdk import dag, task
+from airflow.decorators import dag, task
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from pendulum import datetime
 import logging
