@@ -8,6 +8,8 @@ astro
 .astro/standalone/
 airflow-webserver.pid
 webserver_config.py
+debug_db.py
+render.yaml
 airflow.cfg
 airflow.db
 include/psx_analytics/profiles.yml
