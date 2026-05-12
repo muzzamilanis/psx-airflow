@@ -55,6 +55,9 @@ seed_dbt → run_dbt → test_dbt
 psx-airflow/
 ├── dags/
 │   └── psx_pipeline.py          # Main Airflow DAG
+├── dashboard/
+│   ├── PSX-Dashboard.pbix       # Power BI report file
+│   └── PSX-Dashboard.png        # Dashboard screenshot
 ├── include/
 │   └── psx_analytics/           # dbt project
 │       ├── models/
