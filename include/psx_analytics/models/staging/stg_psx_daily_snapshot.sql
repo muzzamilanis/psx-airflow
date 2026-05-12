@@ -38,6 +38,10 @@ select
     nullif(market_cap_clean, '')::numeric   as market_cap_m
 from cleaned
 where rn = 1
+    -- Exclude hardcoded mock data rows injected during pipeline development and testing.
+    -- These five records were manually inserted to validate the pipeline end-to-end
+    -- before the live scraper was connected. Filtered by exact symbol + price combination
+    -- to avoid impacting legitimate future trades at similar price points.
   and not (symbol = 'ENGRO' and ldcp_clean = '285.50' and current_clean = '287.00')
   and not (symbol = 'LUCK'  and ldcp_clean = '920.00' and current_clean = '915.00')
   and not (symbol = 'HBL'   and ldcp_clean = '145.00' and current_clean = '146.50')
