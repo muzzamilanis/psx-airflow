@@ -14,6 +14,15 @@ PSX Data → PostgreSQL Bronze Layer (PsxAllShr)
  mart_top_movers (Gold)   mart_sector_summary (Gold)
 ```
 
+## Dashboard
+
+Power BI dashboard built on the Gold layer — updated daily with live PSX data.
+
+![PSX Dashboard](dashboard/PSX-Dashboard.png)
+
+> Built with Power BI Desktop connected directly to Neon PostgreSQL gold layer.
+> Download [`PSX-Dashboard.pbix`](dashboard/PSX-Dashboard.pbix) to explore interactively.
+
 ## Pipeline DAG
 
 Three tasks run sequentially, triggered manually on trading days:
@@ -158,9 +167,8 @@ Trigger the `psx_pipeline` DAG.
 | Cement | -1.32% | 732,124 |
 
 ## Roadmap
-- [ ] Add autonomous scheduling via persistent cloud host
-- [ ] Add Slack alerting on pipeline failure
-- [ ] Build analytics dashboard (Metabase / Superset)
+- [x] Power BI dashboard — Top Movers, Volume Leaders, Sector Market Cap, Market Trend
+- [ ] Tableau Public dashboard — public shareable URL
 - [ ] Add historical trend marts (30-day moving average, RSI)
 - [ ] Deploy to Astro Cloud
 
