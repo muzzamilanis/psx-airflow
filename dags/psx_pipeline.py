@@ -4,7 +4,6 @@ from datetime import timedelta
 import logging
 
 log = logging.getLogger(__name__)
-
 DBT_PROJECT_DIR = "/usr/local/airflow/include/psx_analytics"
 
 def on_failure_callback(context):
@@ -30,8 +29,7 @@ def psx_pipeline():
             ["dbt", "seed",
              "--project-dir", DBT_PROJECT_DIR,
              "--profiles-dir", DBT_PROJECT_DIR],
-            capture_output=True,
-            text=True
+            capture_output=True, text=True
         )
         log.info("[DBT SEED] stdout: %s", result.stdout)
         if result.returncode != 0:
@@ -45,8 +43,7 @@ def psx_pipeline():
             ["dbt", "run",
              "--project-dir", DBT_PROJECT_DIR,
              "--profiles-dir", DBT_PROJECT_DIR],
-            capture_output=True,
-            text=True
+            capture_output=True, text=True
         )
         log.info("[DBT RUN] stdout: %s", result.stdout)
         if result.returncode != 0:
@@ -60,18 +57,85 @@ def psx_pipeline():
             ["dbt", "test",
              "--project-dir", DBT_PROJECT_DIR,
              "--profiles-dir", DBT_PROJECT_DIR],
-            capture_output=True,
-            text=True
+            capture_output=True, text=True
         )
         log.info("[DBT TEST] stdout: %s", result.stdout)
         if result.returncode != 0:
             raise RuntimeError(f"dbt test failed: {result.stderr}")
         log.info("[DBT TEST] Completed successfully")
 
-    seed = seed_dbt()
-    dbt = run_dbt()
-    dbt_test = test_dbt()
+    @task
+    def sync_neon_to_snowflake():
+        import psycopg2
+        import snowflake.connector
+        import os
 
-    seed >> dbt >> dbt_test
+        neon_conn = psycopg2.connect(
+            host=os.environ["NEON_HOST"],
+            dbname="PsxDataLake",
+            user="neondb_owner",
+            password=os.environ["NEON_PASSWORD"],
+            port=5432,
+            sslmode="require"
+        )
+        sf_conn = snowflake.connector.connect(
+            account="gcubopn-la25479",
+            user=os.environ["SNOWFLAKE_USER"],
+            password=os.environ["SNOWFLAKE_PASSWORD"],
+            database="PSX_DATA_LAKE",
+            schema="BRONZE",
+            warehouse="COMPUTE_WH"
+        )
+
+        neon_cur = neon_conn.cursor()
+        sf_cur = sf_conn.cursor()
+
+        sf_cur.execute('SELECT MAX(id) FROM PSX_DATA_LAKE.BRONZE."PsxAllShr"')
+        last_id = sf_cur.fetchone()[0] or 0
+        log.info(f"[SYNC] Last synced id: {last_id}")
+
+        neon_cur.execute('SELECT * FROM public."PsxAllShr" WHERE id > %s ORDER BY id', (last_id,))
+        rows = neon_cur.fetchall()
+        log.info(f"[SYNC] New rows to sync: {len(rows)}")
+
+        if rows:
+            sf_cur.executemany(
+                'INSERT INTO PSX_DATA_LAKE.BRONZE."PsxAllShr" VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+                rows
+            )
+            sf_conn.commit()
+            log.info(f"[SYNC] Synced {len(rows)} rows to Snowflake")
+        else:
+            log.info("[SYNC] No new rows to sync")
+
+        neon_cur.close()
+        neon_conn.close()
+        sf_cur.close()
+        sf_conn.close()
+
+    @task
+    def run_dbt_snowflake():
+        import subprocess
+        result = subprocess.run(
+            ["dbt", "run",
+             "--project-dir", DBT_PROJECT_DIR,
+             "--profiles-dir", DBT_PROJECT_DIR,
+             "--target", "snowflake",
+             "--vars", '{"source_database": "PSX_DATA_LAKE", "source_schema": "BRONZE"}'],
+            capture_output=True, text=True
+        )
+        log.info("[DBT SNOWFLAKE] stdout: %s", result.stdout)
+        if result.returncode != 0:
+            raise RuntimeError(f"dbt snowflake run failed: {result.stderr}")
+        log.info("[DBT SNOWFLAKE] Completed successfully")
+
+    # Pipeline flow
+    seed   = seed_dbt()
+    dbt    = run_dbt()
+    test   = test_dbt()
+    sync   = sync_neon_to_snowflake()
+    sf_dbt = run_dbt_snowflake()
+
+    seed >> dbt >> test >> sync >> sf_dbt
 
 psx_pipeline()
