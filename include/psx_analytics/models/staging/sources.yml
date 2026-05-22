@@ -1,9 +1,10 @@
 version: 2
-
 sources:
   - name: raw
-    database: PsxDataLake
-    schema: public
+    database: "{{ var('source_database', 'PsxDataLake') }}"
+    schema: "{{ var('source_schema', 'public') }}"
     tables:
       - name: PsxAllShr
         description: "Raw PSX daily snapshot data ingested from scraper"
+        quoting:
+          identifier: true
