@@ -1,26 +1,45 @@
 {{ config(materialized='view') }}
 
-with cleaned as (
+with source as (
+    select
+        id,
+        fetched_at,
+        trim(replace(symbol, ' XD', ''))                        as symbol,
+        name,
+        ldcp,
+        {{ quote_column('current') }}                           as current,
+        change,
+        change_1,
+        idx_wtg,
+        idx_point,
+        volume,
+        shares_m,
+        market_cap_m
+    from {{ source('raw', 'PsxAllShr') }}
+),
+
+cleaned as (
     select
         id,
         fetched_at,
         symbol,
         name,
-        replace(trim(ldcp), ',', '')                                        as ldcp_clean,
-        replace(trim({{ quote_column('current') }}), ',', '')               as current_clean,
-        replace(trim(change), ',', '')                                      as change_clean,
-        replace(replace(trim(change_1), '%', ''), ',', '')                  as change_pct_clean,
-        replace(replace(trim(idx_wtg), '%', ''), ',', '')                   as idx_wtg_clean,
-        replace(trim(idx_point), ',', '')                                   as idx_point_clean,
-        replace(trim(volume), ',', '')                                      as volume_clean,
-        replace(trim(shares_m), ',', '')                                    as shares_clean,
-        replace(trim(market_cap_m), ',', '')                                as market_cap_clean,
+        replace(trim(ldcp), ',', '')                            as ldcp_clean,
+        replace(trim(current), ',', '')                         as current_clean,
+        replace(trim(change), ',', '')                          as change_clean,
+        replace(replace(trim(change_1), '%', ''), ',', '')      as change_pct_clean,
+        replace(replace(trim(idx_wtg), '%', ''), ',', '')       as idx_wtg_clean,
+        replace(trim(idx_point), ',', '')                       as idx_point_clean,
+        replace(trim(volume), ',', '')                          as volume_clean,
+        replace(trim(shares_m), ',', '')                        as shares_clean,
+        replace(trim(market_cap_m), ',', '')                    as market_cap_clean,
         row_number() over (
             partition by fetched_at, symbol
             order by id desc
         ) as rn
-    from {{ source('raw', 'PsxAllShr') }}
+    from source
 )
+
 select
     id,
     fetched_at,

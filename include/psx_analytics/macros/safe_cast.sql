@@ -13,3 +13,19 @@
     {{ column }}
   {% endif %}
 {% endmacro %}
+
+{% macro cast_date(column) %}
+  {% if target.type == 'snowflake' %}
+    TRY_CAST({{ column }} AS DATE)
+  {% else %}
+    ({{ column }})::date
+  {% endif %}
+{% endmacro %}
+
+{% macro round_numeric(expr, scale) %}
+  {% if target.type == 'snowflake' %}
+    round({{ expr }}, {{ scale }})
+  {% else %}
+    round(({{ expr }})::numeric, {{ scale }})
+  {% endif %}
+{% endmacro %}
