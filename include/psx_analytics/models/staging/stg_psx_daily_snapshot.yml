@@ -1,5 +1,4 @@
 version: 2
-
 models:
   - name: stg_psx_daily_snapshot
     description: "Cleaned and typed PSX daily snapshot data"
@@ -9,15 +8,40 @@ models:
         tests:
           - unique
           - not_null
+
       - name: symbol
-        description: "PSX ticker symbol"
+        description: "PSX ticker symbol, XD suffix stripped"
         tests:
           - not_null
+
       - name: fetched_at
-        description: "Date the snapshot was taken"
+        description: "Timestamp the snapshot was taken"
         tests:
           - not_null
+
       - name: current_price
-        description: "Current traded price"
+        description: "Current traded price — nullable for non-trading days"
         tests:
-          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+              config:
+                where: "current_price is not null"
+
+      - name: change_pct
+        description: "Daily change percentage"
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "between -50 and 50"
+              config:
+                where: "change_pct is not null"
+
+      - name: volume
+        description: "Traded volume"
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+              config:
+                where: "volume is not null"

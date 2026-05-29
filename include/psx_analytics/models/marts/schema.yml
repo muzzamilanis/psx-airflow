@@ -1,0 +1,81 @@
+version: 2
+models:
+  - name: mart_portfolio_snapshot
+    description: "Daily portfolio value and P&L per holding"
+    columns:
+      - name: symbol
+        description: "PSX ticker symbol"
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('portfolio_holdings')
+              field: symbol
+              config:
+                where: "symbol is not null"
+
+      - name: qty_held
+        description: "Number of shares held"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: avg_buy_rate
+        description: "Average buy price per share"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: total_cost
+        description: "Total amount invested in this holding"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: unrealized_pct
+        description: "Unrealized return percentage"
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "between -100 and 1000"
+              config:
+                where: "unrealized_pct is not null"
+
+  - name: mart_portfolio_summary
+    description: "Total portfolio value and P&L summary"
+    columns:
+      - name: price_date
+        description: "Date of the snapshot"
+        tests:
+          - unique
+          - not_null
+
+      - name: total_invested
+        description: "Total amount invested across all holdings"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: total_current_value
+        description: "Current market value of entire portfolio"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+
+      - name: holdings_count
+        description: "Number of holdings in portfolio"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "= 7"
