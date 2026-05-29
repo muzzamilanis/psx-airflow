@@ -16,7 +16,7 @@
 
 {% macro cast_date(column) %}
   {% if target.type == 'snowflake' %}
-    TRY_CAST({{ column }} AS DATE)
+    TO_DATE({{ column }})
   {% else %}
     ({{ column }})::date
   {% endif %}
