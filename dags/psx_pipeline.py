@@ -114,6 +114,21 @@ def psx_pipeline():
         sf_conn.close()
 
     @task
+    def seed_dbt_snowflake():
+        import subprocess
+        result = subprocess.run(
+            ["dbt", "seed",
+             "--project-dir", DBT_PROJECT_DIR,
+             "--profiles-dir", DBT_PROJECT_DIR,
+             "--target", "snowflake"],
+            capture_output=True, text=True
+        )
+        log.info("[DBT SEED SNOWFLAKE] stdout: %s", result.stdout)
+        if result.returncode != 0:
+            raise RuntimeError(f"dbt seed snowflake failed: {result.stderr}")
+        log.info("[DBT SEED SNOWFLAKE] Completed successfully")
+
+    @task
     def run_dbt_snowflake():
         import subprocess
         result = subprocess.run(
@@ -129,13 +144,13 @@ def psx_pipeline():
             raise RuntimeError(f"dbt snowflake run failed: {result.stderr}")
         log.info("[DBT SNOWFLAKE] Completed successfully")
 
-    # Pipeline flow
-    seed   = seed_dbt()
-    dbt    = run_dbt()
-    test   = test_dbt()
-    sync   = sync_neon_to_snowflake()
-    sf_dbt = run_dbt_snowflake()
+    seed      = seed_dbt()
+    dbt       = run_dbt()
+    test      = test_dbt()
+    sync      = sync_neon_to_snowflake()
+    sf_seed   = seed_dbt_snowflake()
+    sf_dbt    = run_dbt_snowflake()
 
-    seed >> dbt >> test >> sync >> sf_dbt
+    seed >> dbt >> test >> sync >> sf_seed >> sf_dbt
 
 psx_pipeline()
