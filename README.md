@@ -5,13 +5,24 @@ An end-to-end data engineering project that ingests daily Pakistan Stock Exchang
 ## Architecture
 
 ```
-PSX Data → PostgreSQL Bronze Layer (PsxAllShr)
-                        ↓
-           dbt Staging Model (Silver)
-                        ↓
-          ┌─────────────┴─────────────┐
-          ↓                           ↓
- mart_top_movers (Gold)   mart_sector_summary (Gold)
+Local Scraper (Windows Task Scheduler)
+         ↓
+Neon PostgreSQL — Bronze Layer (PsxAllShr)
+         ↓
+Airflow DAG on GitHub Codespaces
+         ↓
+dbt Staging Model — Silver Layer (stg_psx_daily_snapshot)
+         ↓
+         ├── mart_top_movers (Gold)
+         ├── mart_sector_summary (Gold)
+         ├── mart_portfolio_snapshot (Gold)
+         └── mart_portfolio_summary (Gold)
+         ↓
+Neon → Snowflake Sync (Python)
+         ↓
+dbt on Snowflake (parallel target)
+         ↓
+Power BI Dashboard
 ```
 
 ## Dashboard
@@ -25,27 +36,33 @@ Power BI dashboard built on the Gold layer — updated daily with live PSX data.
 
 ## Pipeline DAG
 
-Three tasks run sequentially, triggered manually on trading days:
+Six tasks run sequentially, triggered manually on trading days:
 
 ```
-seed_dbt → run_dbt → test_dbt
+seed_dbt → run_dbt → test_dbt → sync_neon_to_snowflake → seed_dbt_snowflake → run_dbt_snowflake
 ```
 
 | Task | Description |
-|---|---|
-| `seed_dbt` | Loads sector mapping reference data via dbt seed |
-| `run_dbt` | Runs staging and mart transformation models |
-| `test_dbt` | Executes dbt data quality tests |
+| --- | --- |
+| `seed_dbt` | Loads sector mapping and portfolio holdings seed data via dbt (Neon) |
+| `run_dbt` | Runs staging and mart transformation models on Neon PostgreSQL |
+| `test_dbt` | Executes 25 dbt data quality tests (unique, not_null, relationships, expression_is_true) |
+| `sync_neon_to_snowflake` | Syncs gold layer tables from Neon PostgreSQL to Snowflake |
+| `seed_dbt_snowflake` | Loads seed data on Snowflake target |
+| `run_dbt_snowflake` | Runs all dbt models on Snowflake using cross-database macros |
 
 ## Tech Stack
 
 | Layer | Technology |
-|---|---|
+| --- | --- |
 | Orchestration | Apache Airflow 3.x (Astronomer Runtime 3.2-3) |
-| Storage | PostgreSQL (Neon) |
-| Transformation | dbt-core 1.11.8, dbt-postgres 1.10.0 |
-| Data Quality | dbt tests (not_null, unique) |
+| Primary Storage | PostgreSQL (Neon) |
+| Cloud Warehouse | Snowflake |
+| Transformation | dbt-core 1.11.8, dbt-postgres 1.10.0, dbt-snowflake |
+| Cross-DB Compatibility | Custom dbt macros — `safe_cast`, `quote_column`, `cast_date`, `round_numeric` |
+| Data Quality | dbt_utils 1.3.0 — 25 tests (not_null, unique, relationships, expression_is_true) |
 | Alerting | Airflow failure callbacks with retries |
+| Visualization | Power BI Desktop connected to Neon PostgreSQL gold layer |
 | Development | GitHub Codespaces, Astro CLI |
 | Version Control | Git, GitHub |
 
@@ -88,6 +105,17 @@ All PSX-listed stocks ranked by daily change percentage. Rebuilt as a table on e
 
 ### Gold Layer — `mart_sector_summary`
 Sector-level aggregations per day — total market cap, total volume, average change percentage, and average price grouped by sector.
+
+## Portfolio Analytics
+
+Personal PSX portfolio tracked across 7 holdings: ISL, KEL, LUCK, NATF, OGDC, SYS, CLOV.
+
+| Model | Description |
+| --- | --- |
+| `mart_portfolio_snapshot` | Daily mark-to-market per holding — current price, cost basis, gain/loss PKR, gain/loss %, portfolio weight |
+| `mart_portfolio_summary` | Aggregate portfolio metrics — total invested, total current value, total gain/loss, weighted avg change |
+
+Both models run on Neon and Snowflake via cross-database macros.
 
 ## Reliability
 
