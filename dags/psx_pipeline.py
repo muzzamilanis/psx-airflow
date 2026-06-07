@@ -144,6 +144,74 @@ def psx_pipeline():
             raise RuntimeError(f"dbt snowflake run failed: {result.stderr}")
         log.info("[DBT SNOWFLAKE] Completed successfully")
 
+
+    @task
+    def fetch_ohlcv_data():
+        import os
+        import yfinance as yf
+        import psycopg2
+        from psycopg2.extras import execute_values
+        from datetime import datetime, timezone
+
+        SYMBOLS = ['ISL.KA', 'KEL.KA', 'LUCK.KA', 'NATF.KA', 'OGDC.KA', 'SYS.KA', 'CLOV.KA']
+
+        conn = psycopg2.connect(
+            host=os.environ["NEON_HOST"],
+            dbname="PsxDataLake",
+            user="neondb_owner",
+            password=os.environ["NEON_PASSWORD"],
+            port=5432,
+            sslmode="require"
+        )
+
+        for sym in SYMBOLS:
+            log.info(f"[OHLCV] Fetching {sym}...")
+            try:
+                df = yf.Ticker(sym).history(period='5d')
+                if df.empty:
+                    log.warning(f"[OHLCV] No data for {sym}, skipping")
+                    continue
+
+                df.index = df.index.tz_convert('UTC').normalize()
+
+                rows = [
+                    (
+                        sym.replace('.KA', ''),
+                        idx.date(),
+                        round(float(row['Open']), 4),
+                        round(float(row['High']), 4),
+                        round(float(row['Low']), 4),
+                        round(float(row['Close']), 4),
+                        int(row['Volume']),
+                        round(float(row['Dividends']), 4),
+                        round(float(row['Stock Splits']), 4),
+                        datetime.now(timezone.utc)
+                    )
+                    for idx, row in df.iterrows()
+                ]
+
+                with conn.cursor() as cur:
+                    execute_values(
+                        cur,
+                        """
+                        INSERT INTO public.psx_price_history
+                            (symbol, price_date, open, high, low, close, volume, dividends, stock_splits, fetched_at)
+                        VALUES %s
+                        ON CONFLICT (symbol, price_date) DO NOTHING
+                        """,
+                        rows
+                    )
+                conn.commit()
+                log.info(f"[OHLCV] Done {sym}")
+
+            except Exception as e:
+                conn.rollback()
+                log.error(f"[OHLCV] ERROR for {sym}: {e}")
+
+        conn.close()
+        log.info("[OHLCV] fetch_ohlcv_data complete")
+
+    ohlcv     = fetch_ohlcv_data()
     seed      = seed_dbt()
     dbt       = run_dbt()
     test      = test_dbt()
@@ -151,6 +219,6 @@ def psx_pipeline():
     sf_seed   = seed_dbt_snowflake()
     sf_dbt    = run_dbt_snowflake()
 
-    seed >> dbt >> test >> sync >> sf_seed >> sf_dbt
+    ohlcv >> seed >> dbt >> test >> sync >> sf_seed >> sf_dbt
 
 psx_pipeline()

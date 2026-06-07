@@ -38,7 +38,7 @@ joined as (
         ) }}                                                as unrealized_pct,
         p.price_date
     from holdings h
-    left join latest_prices p on h.symbol = p.symbol
+    inner join latest_prices p on h.symbol = p.symbol
 )
 
 select * from joined

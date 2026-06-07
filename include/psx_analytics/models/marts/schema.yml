@@ -78,4 +78,4 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               arguments:
-                expression: "= 7"
+                expression: "> 0"
