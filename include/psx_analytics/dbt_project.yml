@@ -36,3 +36,24 @@ models:
     marts:
       +materialized: table
 
+seeds:
+  psx_analytics:
+    portfolio_trades:
+      +column_types:
+        comm: float
+        cdc_amt: float
+        sst: float
+        net_amount: float
+    portfolio_cgt_monthly:
+      +column_types:
+        capital_gain_loss: float
+        holding_days: float
+        cgt_slab_pct: float
+        provisional_cgt: float
+        net_gain_loss_month: float
+        gross_cgt_month: float
+        net_cgt_month: float
+        cgt_payable_cumulative: float
+        cgt_collected_cumulative: float
+        cgt_shortfall: float
+        cgt_refund: float

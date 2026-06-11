@@ -215,10 +215,10 @@ def psx_pipeline():
     seed      = seed_dbt()
     dbt       = run_dbt()
     test      = test_dbt()
-    sync      = sync_neon_to_snowflake()
-    sf_seed   = seed_dbt_snowflake()
-    sf_dbt    = run_dbt_snowflake()
+    # sync      = sync_neon_to_snowflake()
+    # sf_seed   = seed_dbt_snowflake()
+    # sf_dbt    = run_dbt_snowflake()
 
-    ohlcv >> seed >> dbt >> test >> sync >> sf_seed >> sf_dbt
+    ohlcv >> seed >> dbt >> test
 
 psx_pipeline()

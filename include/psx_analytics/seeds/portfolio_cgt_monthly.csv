@@ -1,0 +1,7 @@
+cgt_id,broker,period_month,symbol,qty,settlement_date,capital_gain_loss,holding_days,cgt_slab_pct,provisional_cgt,net_gain_loss_month,gross_cgt_month,net_cgt_month,cgt_payable_cumulative,cgt_collected_cumulative,cgt_shortfall,cgt_refund
+AKD-CGT-001,AKD,2025-10,LUCK,60,2025-10-08,5313.39,,,,5313.39,1594.02,1594.02,1594.02,1594.02,0.00,
+AKD-CGT-002,AKD,2026-01,PIBTL,50,2026-01-09,-2.35,41,,,5311.04,0.00,0.00,1593.31,1593.31,0.00,0.71
+AKD-CGT-003,AKD,2026-02,PIBTL,50,2026-02-25,-135.43,41,,,5175.61,0.00,0.00,1552.68,1552.68,0.00,40.63
+AKD-CGT-004,AKD,2026-03,KEL,135,2026-03-24,59.07,20,15,8.86,,,,,,
+AKD-CGT-005,AKD,2026-03,LUCK,10,2026-03-24,-909.35,160,,0.00,-850.28,0.00,0.00,1260.70,1260.70,0.00,291.99
+AKD-CGT-006,AKD,2026-04,KEL,50,2026-04-20,49.71,13,15,7.46,4252.03,7.46,7.46,1268.15,1260.70,7.46,

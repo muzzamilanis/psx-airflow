@@ -2,13 +2,12 @@
 
 with holdings as (
     select * from {{ ref('portfolio_holdings') }}
+    where status = 'active'
 ),
-
 latest_date as (
     select max({{ cast_date('fetched_at') }}) as max_date
     from {{ ref('stg_psx_daily_snapshot') }}
 ),
-
 latest_prices as (
     select
         s.symbol,
@@ -19,7 +18,6 @@ latest_prices as (
     inner join latest_date d
         on {{ cast_date('s.fetched_at') }} = d.max_date
 ),
-
 joined as (
     select
         h.symbol,
@@ -40,5 +38,4 @@ joined as (
     from holdings h
     inner join latest_prices p on h.symbol = p.symbol
 )
-
 select * from joined
