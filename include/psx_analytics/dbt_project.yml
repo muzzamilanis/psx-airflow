@@ -57,3 +57,8 @@ seeds:
         cgt_collected_cumulative: float
         cgt_shortfall: float
         cgt_refund: float
+        comm: float
+        cdc_amt: float
+        lsn: float
+        sst: float
+        net_amount: float

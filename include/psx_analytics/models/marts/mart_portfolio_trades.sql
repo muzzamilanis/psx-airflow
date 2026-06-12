@@ -12,6 +12,7 @@ buys as (
         gross_rate                                          as buy_rate,
         coalesce(comm, 0)
             + coalesce(cdc_amt, 0)
+            + coalesce(lsn, 0)
             + coalesce(sst, 0)                             as buy_charges
     from trades
     where trade_type = 'buy'
@@ -26,6 +27,7 @@ sells as (
         gross_rate                                          as sell_rate,
         coalesce(comm, 0)
             + coalesce(cdc_amt, 0)
+            + coalesce(lsn, 0)
             + coalesce(sst, 0)                             as sell_charges,
         reason
     from trades
