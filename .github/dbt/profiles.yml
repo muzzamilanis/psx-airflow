@@ -1,0 +1,18 @@
+# CI-only dbt profile for .github/workflows/daily_pipeline.yml.
+# Not used locally — local dev uses include/psx_analytics/profiles.yml.
+# Connection fields are populated by the workflow, which parses the
+# NEON_DATABASE_URL secret into PGHOST/PGUSER/PGPASSWORD/PGPORT/PGDATABASE
+# (dbt-postgres has no single-DSN profile field).
+psx_analytics:
+  target: ci
+  outputs:
+    ci:
+      type: postgres
+      host: "{{ env_var('PGHOST') }}"
+      user: "{{ env_var('PGUSER') }}"
+      password: "{{ env_var('PGPASSWORD') }}"
+      port: "{{ env_var('PGPORT') | as_number }}"
+      dbname: "{{ env_var('PGDATABASE') }}"
+      schema: public
+      sslmode: require
+      threads: 4

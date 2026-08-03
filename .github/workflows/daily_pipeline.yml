@@ -1,0 +1,62 @@
+name: Daily PSX Pipeline
+
+on:
+  schedule:
+    # 13:15 UTC = 18:15 PKT, Mon-Fri
+    - cron: "15 13 * * 1-5"
+  workflow_dispatch: {}
+
+env:
+  DBT_PROJECT_DIR: include/psx_analytics
+  DBT_PROFILES_DIR: .github/dbt
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements-ci.txt
+
+      - name: Fetch day-end PSX prices
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: python scripts/fetch_ohlcv_data.py
+
+      - name: Parse Neon connection URL
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: |
+          python -c "
+          import os
+          from urllib.parse import urlparse
+
+          url = urlparse(os.environ['NEON_DATABASE_URL'])
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
+              f.write(f'PGHOST={url.hostname}\n')
+              f.write(f'PGUSER={url.username}\n')
+              f.write(f'PGPASSWORD={url.password}\n')
+              f.write(f'PGPORT={url.port or 5432}\n')
+              f.write(f'PGDATABASE={url.path.lstrip(\"/\")}\n')
+          "
+
+      - name: dbt deps
+        run: dbt deps --project-dir "$DBT_PROJECT_DIR" --profiles-dir "$DBT_PROFILES_DIR"
+
+      - name: dbt build
+        run: dbt build --project-dir "$DBT_PROJECT_DIR" --profiles-dir "$DBT_PROFILES_DIR"
+
+      - name: Send daily portfolio email
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: python scripts/send_daily_email.py

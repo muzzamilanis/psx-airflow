@@ -1,0 +1,5 @@
+# Dependencies for .github/workflows/daily_pipeline.yml only.
+# Kept separate from requirements.txt, which targets the Astro/Airflow runtime.
+yfinance
+psycopg2-binary
+dbt-postgres
