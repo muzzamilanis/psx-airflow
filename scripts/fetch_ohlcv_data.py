@@ -15,7 +15,7 @@ from psycopg2.extras import execute_values
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
 
-SYMBOLS = ["ISL.KA", "KEL.KA", "LUCK.KA", "NATF.KA", "OGDC.KA", "SYS.KA", "CLOV.KA"]
+SYMBOLS = ["ISL.KA", "KEL.KA", "LUCK.KA", "NATF.KA", "OGDC.KA", "SYS.KA", "CLOV.KA", "FFC.KA", "SEARL.KA"]
 
 
 def main():
