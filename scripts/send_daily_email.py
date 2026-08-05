@@ -40,6 +40,11 @@ REALIZED_PNL_SQL = """
     from mart_portfolio_trades
 """
 
+TECHNICALS_SQL = """
+    select symbol, pct_vs_sma_200, rsi_14, volume_ratio_20
+    from mart_technical_indicators
+"""
+
 EMAIL_TEMPLATE = Template("""\
 <html>
 <body style="font-family: Arial, sans-serif; color: #1a1a1a;">
@@ -64,6 +69,10 @@ EMAIL_TEMPLATE = Template("""\
     </tr>
     $ticker_rows
   </table>
+
+  <div style="font-size: 12px; color: #666;">
+    $technicals_lines
+  </div>
 </body>
 </html>
 """)
@@ -78,9 +87,35 @@ ROW_TEMPLATE = Template("""\
     </tr>
 """)
 
+TECH_LINE_TEMPLATE = Template("""\
+    <div><b>$symbol</b> — $technicals_line</div>
+""")
+
 
 def _color(value):
     return "#0a7d2c" if value is not None and value >= 0 else "#c02626"
+
+
+def _fmt_signed_pct(value):
+    return f"{value:+.0f}%" if value is not None else "n/a"
+
+
+def _fmt_rsi(value):
+    return f"{value:.0f}" if value is not None else "n/a"
+
+
+def _fmt_ratio(value):
+    return f"{value:.1f}x" if value is not None else "n/a"
+
+
+def _technicals_line(tech):
+    if tech is None:
+        return "n/a"
+    return (
+        f"vs 200DMA: {_fmt_signed_pct(tech['pct_vs_sma_200'])} | "
+        f"RSI: {_fmt_rsi(tech['rsi_14'])} | "
+        f"vol: {_fmt_ratio(tech['volume_ratio_20'])}"
+    )
 
 
 def build_email_html(conn):
@@ -93,6 +128,9 @@ def build_email_html(conn):
 
         cur.execute(REALIZED_PNL_SQL)
         realized_pnl, realized_count = cur.fetchone().values()
+
+        cur.execute(TECHNICALS_SQL)
+        technicals = {row["symbol"]: row for row in cur.fetchall()}
 
     if summary is None:
         raise RuntimeError("mart_portfolio_summary returned no rows")
@@ -110,6 +148,14 @@ def build_email_html(conn):
         for row in snapshot_rows
     )
 
+    technicals_lines = "".join(
+        TECH_LINE_TEMPLATE.substitute(
+            symbol=row["symbol"],
+            technicals_line=_technicals_line(technicals.get(row["symbol"])),
+        )
+        for row in snapshot_rows
+    )
+
     html = EMAIL_TEMPLATE.substitute(
         price_date=summary["price_date"],
         total_current_value=f"{summary['total_current_value']:.2f}",
@@ -121,6 +167,7 @@ def build_email_html(conn):
         realized_pnl=f"{realized_pnl:.2f}",
         realized_color=_color(realized_pnl),
         ticker_rows=ticker_rows,
+        technicals_lines=technicals_lines,
     )
     subject = f"PSX Portfolio Update — {summary['price_date']}"
     return subject, html

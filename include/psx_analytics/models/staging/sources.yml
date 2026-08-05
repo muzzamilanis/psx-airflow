@@ -8,3 +8,6 @@ sources:
         description: "Raw PSX daily snapshot data ingested from scraper"
         quoting:
           identifier: true
+
+      - name: psx_price_history
+        description: "Raw daily OHLCV price history ingested from the yfinance fetch script"

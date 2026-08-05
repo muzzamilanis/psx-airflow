@@ -79,3 +79,17 @@ models:
           - dbt_utils.expression_is_true:
               arguments:
                 expression: "> 0"
+
+  - name: mart_technical_indicators
+    description: "Latest-day technical indicators per symbol: moving averages, RSI, 52-week range, volume ratio"
+    columns:
+      - name: symbol
+        description: "PSX ticker symbol"
+        tests:
+          - unique
+          - not_null
+
+      - name: close
+        description: "Closing price on the symbol's latest trading day"
+        tests:
+          - not_null
