@@ -3,3 +3,5 @@
 yfinance
 psycopg2-binary
 dbt-postgres
+requests
+beautifulsoup4

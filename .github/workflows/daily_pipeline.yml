@@ -30,6 +30,11 @@ jobs:
           NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
         run: python scripts/fetch_ohlcv_data.py
 
+      - name: Fetch news
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: python scripts/fetch_news.py
+
       - name: Parse Neon connection URL
         env:
           NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
