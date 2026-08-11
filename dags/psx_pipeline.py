@@ -172,7 +172,9 @@ def psx_pipeline():
                     log.warning(f"[OHLCV] No data for {sym}, skipping")
                     continue
 
-                df.index = df.index.tz_convert('UTC').normalize()
+                # Use the PSX trading date (Asia/Karachi), not UTC — converting to UTC first
+                # rolls the midnight-PKT timestamp back onto the previous calendar day.
+                df.index = df.index.tz_convert('Asia/Karachi').normalize()
 
                 rows = [
                     (

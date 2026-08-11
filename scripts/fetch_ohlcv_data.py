@@ -24,7 +24,9 @@ SYMBOLS = ["ISL.KA", "KEL.KA", "LUCK.KA", "NATF.KA", "OGDC.KA", "SYS.KA", "CLOV.
 
 def rows_from_history(sym, df):
     """Convert a yfinance history DataFrame into psx_price_history row tuples."""
-    df.index = df.index.tz_convert("UTC").normalize()
+    # Use the PSX trading date (Asia/Karachi), not UTC — converting to UTC first
+    # rolls the midnight-PKT timestamp back onto the previous calendar day.
+    df.index = df.index.tz_convert("Asia/Karachi").normalize()
 
     return [
         (
