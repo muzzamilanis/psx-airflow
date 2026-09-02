@@ -9,6 +9,7 @@ wrong date. On corporate actions: back up the symbol's rows, inspect where value
 change units, adjust only old-unit rows.
 """
 import logging
+import math
 import os
 from datetime import datetime, timezone
 
@@ -28,21 +29,27 @@ def rows_from_history(sym, df):
     # rolls the midnight-PKT timestamp back onto the previous calendar day.
     df.index = df.index.tz_convert("Asia/Karachi").normalize()
 
-    return [
-        (
-            sym.replace(".KA", ""),
-            idx.date(),
-            round(float(row["Open"]), 4),
-            round(float(row["High"]), 4),
-            round(float(row["Low"]), 4),
-            round(float(row["Close"]), 4),
-            int(row["Volume"]),
-            round(float(row["Dividends"]), 4),
-            round(float(row["Stock Splits"]), 4),
-            datetime.now(timezone.utc),
+    rows = []
+    for idx, row in df.iterrows():
+        if any(math.isnan(row[field]) for field in ("Open", "High", "Low", "Close")):
+            log.warning(f"[OHLCV] Skipping {sym} {idx.date()}: NaN in OHLC data")
+            continue
+
+        rows.append(
+            (
+                sym.replace(".KA", ""),
+                idx.date(),
+                round(float(row["Open"]), 4),
+                round(float(row["High"]), 4),
+                round(float(row["Low"]), 4),
+                round(float(row["Close"]), 4),
+                int(row["Volume"]),
+                round(float(row["Dividends"]), 4),
+                round(float(row["Stock Splits"]), 4),
+                datetime.now(timezone.utc),
+            )
         )
-        for idx, row in df.iterrows()
-    ]
+    return rows
 
 
 def upsert_rows(conn, rows):
