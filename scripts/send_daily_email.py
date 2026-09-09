@@ -22,3 +22,27 @@ log = logging.getLogger(__name__)
 
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
+
+SUMMARY_SQL = """
+    select price_date, total_invested, total_current_value,
+           total_unrealized_pnl, total_unrealized_pct, holdings_count
+    from mart_portfolio_summary
+    order by price_date desc
+    limit 1
+"""
+
+SNAPSHOT_SQL = """
+    select symbol, current_price, todays_change_pct, current_value, unrealized_pnl
+    from mart_portfolio_snapshot
+    order by symbol
+"""
+
+REALIZED_PNL_SQL = """
+    select coalesce(sum(net_pnl), 0), count(*)
+    from mart_portfolio_trades
+"""
+
+TECHNICALS_SQL = """
+    select symbol, pct_vs_sma_200, rsi_14, volume_ratio_20
+    from mart_technical_indicators
+"""
