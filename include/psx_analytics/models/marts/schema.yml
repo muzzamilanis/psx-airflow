@@ -93,3 +93,35 @@ models:
         description: "Closing price on the symbol's latest trading day"
         tests:
           - not_null
+
+  - name: mart_fundamentals
+    description: "Latest PSX-page fundamentals per tracked symbol, joined to the latest board price"
+    columns:
+      - name: symbol
+        description: "PSX ticker symbol"
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('fundamentals_snapshot')
+              field: symbol
+
+      - name: latest_fy_eps
+        description: "EPS for the latest full year shown on the PSX company page"
+        tests:
+          - not_null
+
+      - name: pe_ttm_psx
+        description: "P/E (TTM) as published on the PSX quote strip"
+        tests:
+          - not_null
+
+      - name: results_stale_flag
+        description: "True when the PSX Financials tab is older than we should use for SIP scoring"
+        tests:
+          - not_null
+
+      - name: last_result_title_date
+        description: "Date of the latest results-related announcement used when the seed was built"
+        tests:
+          - not_null
